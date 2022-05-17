@@ -1,0 +1,137 @@
+<template>
+  <div>
+    <h1 class="float-left">STUDENT DETAILS</h1><br><br><br><br>
+    <b-form>
+    <b-row
+      ><b-col cols="2"
+        ><b>Students:</b
+        ><b-form-select
+          v-model="StudentData.StudentId"
+          :options="Students"
+          value-field="id"
+          text-field="Name"
+          id="Students"
+        ></b-form-select></b-col><br /><br />
+         <b-col cols="2"
+        ><b>DateSchedule:</b
+        ><b-form-datepicker
+          type="text"
+          v-model="StudentData.DateSchedule"
+          id="DateSchedule"
+          
+        ></b-form-datepicker></b-col></b-row
+    ><br />
+    <b-row
+      ><b-col cols="2"
+        ><b>Subject:</b
+        ><b-form-select
+          v-model="StudentData.Subject"
+          :options="Subjects"
+          value-field="id"
+          text-field="Name"
+          id="Subject"
+        ></b-form-select></b-col><br /><br />
+        <b-col cols="2"
+        ><b>Marks:</b
+        ><b-form-input
+          type="number"
+          min="0"
+          max="100"
+          v-model="StudentData.Marks"
+          id="Marks"
+        ></b-form-input></b-col></b-row
+    ><br /><br />
+    <b-row
+      ><b-col cols="2">
+        <b>Remarks:</b><br /><textarea
+          type="text"
+          placeholder="enter remarks"
+          v-model="StudentData.Remarks"
+          id="Remarks"
+        ></textarea></b-col></b-row
+    ><br /><br />
+
+    <b-button variant="primary" @click="Submit()" class="float-left"
+      >Submit</b-button
+    >
+    <b-button variant="info" @click="Table_Data()" class="float-left"
+      >Tabledata</b-button
+    >
+    <b-button variant="danger" @click="Remove_Data()" class="float-left"
+      >Removedata</b-button
+    >
+     <p>{{ res }}</p>
+    <b-table striped hover :items="studentData"></b-table> 
+ 
+    </b-form>
+  </div>
+</template>
+
+<script>
+import axios from "axios"
+export default {
+  name: "StudentData",
+  data() {
+    return {
+      StudentData: {
+        StudentId: "",
+        DateSchedule: "",
+        Subject: "",
+        Marks: "",
+        Remarks: "",
+      },
+      studentData: [
+        {
+          StudentId: "",
+          DateSchedule: "",
+          Subject: "",
+          Marks: "",
+          Remarks: "",
+        },
+      ],
+      res: "",
+      Students: [],
+      Selected: null,
+      Subjects: [
+        { id: null, Name: "Select an Subject" },
+        { id: 1, Name: "English" },
+        { id: 2, Name: "Mathematics" },
+        { id: 3, Name: "Electronics" },
+      ],
+    };
+  },
+  async mounted() {
+    await this.get_Data();
+  },
+  methods: {
+    async get_Data() {
+      let response = await axios.get(
+        "https://api.sampleapis.com/baseball/battingAvgsSingleSeason"
+      );
+      this.Students = await response.data;
+    },
+    Submit() 
+       {
+      this.res = JSON.stringify(this.StudentData)
+    },  
+    Table_Data() {
+      this.studentData.push({
+        StudentId: this.StudentData.StudentId,
+        DateSchedule: this.StudentData.DateSchedule,
+        Subject: this.StudentData.Subject,
+        Marks: this.StudentData.Marks,
+        Remarks: this.StudentData.Remarks,
+      });
+    },
+      Remove_Data() {
+      this.studentData.pop({
+        StudentId: this.StudentData.StudentId,
+        DateSchedule: this.StudentData.DateSchedule,
+        Subject: this.StudentData.Subject,
+        Marks: this.StudentData.Marks,
+        Remarks: this.StudentData.Remarks,
+      });
+      }     
+  }
+  }
+</script>

@@ -1,9 +1,9 @@
 <template>
   <div>
       <button @click="f1()">click</button>
-      It is a {{res}}
+       {{res}}
       <button @click="f()">click1</button>
-      It is a {{res1}}
+       {{res1}}
   </div>
 </template>
 
@@ -21,9 +21,11 @@ export default {
     methods:{
         f1(){
             this.res=typeof this.s1
+            document.write(this.res)
         },
         f(){
             this.res1=typeof this.s2
+            document.write(this.res1)
         }
     }
 

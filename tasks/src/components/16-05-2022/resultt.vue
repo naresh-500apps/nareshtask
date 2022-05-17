@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1 class="float-left">STUDENT DETAILS</h1><br><br><br><br>
-    <b-form>
+    <b-card-group>
+    <b-card no-body style="max-width: 100rem;" class="card h-100 border-primary col-6 mx-auto"> 
+    <h1 class="float-left">STUDENT DETAILS</h1><br><br>  
+    <b-form @submit="Submit()">
     <b-row
       ><b-col cols="2"
         ><b>Students:</b
@@ -10,15 +12,15 @@
           :options="Students"
           value-field="id"
           text-field="Name"
-          id="Students"
+          required
+          id="Students" 
         ></b-form-select></b-col><br /><br />
          <b-col cols="2"
         ><b>DateSchedule:</b
         ><b-form-datepicker
-          type="text"
+          type="text" required
           v-model="StudentData.DateSchedule"
           id="DateSchedule"
-          
         ></b-form-datepicker></b-col></b-row
     ><br />
     <b-row
@@ -29,6 +31,7 @@
           :options="Subjects"
           value-field="id"
           text-field="Name"
+          required
           id="Subject"
         ></b-form-select></b-col><br /><br />
         <b-col cols="2"
@@ -37,33 +40,34 @@
           type="number"
           min="0"
           max="100"
+          required
           v-model="StudentData.Marks"
           id="Marks"
         ></b-form-input></b-col></b-row
     ><br /><br />
     <b-row
-      ><b-col cols="2">
+      ><b-col cols="2" text-align: center>
         <b>Remarks:</b><br /><textarea
-          type="text"
+          type="text" required
           placeholder="enter remarks"
           v-model="StudentData.Remarks"
           id="Remarks"
         ></textarea></b-col></b-row
     ><br /><br />
-
-    <b-button variant="primary" @click="Submit()" class="float-left"
+    <b-row><b-col cols="1">
+    <b-button type="submit" variant="primary" class="float-left"
       >Submit</b-button
-    >
-    <b-button variant="info" @click="Table_Data()" class="float-left"
+    ></b-col>
+    <b-col cols="1"><b-button variant="info" @click="Table_Data()" class="float-left"
       >Tabledata</b-button
-    >
-    <b-button variant="danger" @click="Remove_Data()" class="float-left"
-      >Removedata</b-button
-    >
+    ></b-col>
+    <b-col cols="1"><b-button variant="danger" @click="Remove_Data()" class="float-left"
+      >Removedata</b-button></b-col></b-row>
      <p>{{ res }}</p>
     <b-table striped hover :items="studentData"></b-table> 
- 
     </b-form>
+    </b-card>
+    </b-card-group>
   </div>
 </template>
 

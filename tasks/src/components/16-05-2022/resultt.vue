@@ -62,7 +62,9 @@
       >Tabledata</b-button
     ></b-col>
     <b-col cols="1"><b-button variant="danger" @click="Remove_Data()" class="float-left"
-      >Removedata</b-button></b-col></b-row>
+      >Removedata</b-button></b-col>
+      <b-col cols="1"><b-button variant="secondary" @click="Reset_Data()" class="float-left"
+      >Reset</b-button></b-col></b-row>
      <p>{{ res }}</p>
     <b-table striped hover :items="studentData"></b-table> 
     </b-form>
@@ -135,7 +137,14 @@ export default {
         Marks: this.StudentData.Marks,
         Remarks: this.StudentData.Remarks,
       });
-      }     
+      },
+        Reset_Data(){
+           this.StudentData.StudentId = "",
+            this.StudentData.DateSchedule = "",
+             this.StudentData.Subject = "",
+             this.StudentData.Marks = "",
+             this.StudentData.Remarks = ""   
+  }
   }
   }
 </script>

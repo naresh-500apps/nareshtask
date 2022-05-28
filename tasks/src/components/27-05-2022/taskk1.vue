@@ -36,31 +36,35 @@ data(){
       number:"",
       gender:"",
       country:"",
-      }
+      },
       ],
       fields:["Name","Phone_No","Gender","Country_Name"],
     countries: [
-      { id:null,Name: "Select an country" },
-        { id:1,Name: "india" },
-        { id:2,Name: "usa" },
-        { id:3,Name: "London" },
+      { id:null, Name: "Select an country" },
+        { id:1, Name: "india" },
+        { id:2, Name: "usa" },
+        { id:3, Name: "London" },
         ],
         identities: [
       {  id:null,Name: "Select an gender" },
-        { id:1,Name: "male" },
-        {id:2, Name: "female" },
-        { id:3,Name: "trans-gender" }, 
+        { id:1, Name: "male" },
+        {id:2,  Name: "female" },
+        { id:3, Name: "trans-gender" }, 
         ],
 };
 },
 methods:{
  onsubmit_data(){
-  this.formData.push()({
+  this.formData.push({
     Name:this.FormData.username,
-    Phone:this.FormData.number,
+    Phone_No:this.FormData.number,
     Gender:this.FormData.gender,
-    Country:this.FormData.country
-})
+    Country_Name:this.FormData.country
+});
+    this.FormData.username = "",
+    this.FormData.number = "",
+    this.FormData.gender = "",
+    this.FormData.country = ""
 },
 }
 }

@@ -8,34 +8,28 @@
         header-bg-variant="success"
         header-text-variant="light"
         v-for="data in result"
-        :key="data"
-      >
+        :key="data">
       <label><b>Name:</b> {{data.username}}</label><br>
       <label><b>Age:</b> {{data.number}}</label><br>
       <label><b>Gender:</b>{{data.gender}}</label><br>
-      <label><b>Date of Birth:</b>{{data.country}}</label>
-    
+      <label><b>Date of Birth:</b>{{data.country}}</label>   
         <b-button
           v-b-tooltip.hover.left
           title="Edit"
           type="click"
           id="edit"
           variant="success"
-          @click="Edit"
-          ><b-icon icon="server" scale="1.5"></b-icon
+          @click="onEdit"
+          ><b-icon icon="pencil-square" scale="1.5"></b-icon
         ></b-button>
-
-
         <b-button
           v-b-tooltip.hover.right
           title="Delete"
           id="delete"
           variant="success"
-          @click="Delete"
+          @click="onDelete"
           ><b-icon icon="trash-fill" scale="1.5"></b-icon
         ></b-button>
-
-
       </b-card>
     </div>
   </div>
@@ -62,10 +56,10 @@ export default {
     };
   },
   methods: {
-    Edit() {
+    onEdit() {
       this.$emit("edit");
     },
-    Delete() {
+    onDelete() {
       this.$emit("delete");
     },
   },
@@ -91,8 +85,18 @@ export default {
 }
 #contact{
   position: absolute;
-  left:50px;
+  left:30px;
   bottom:750px;
+}
+#card{
+  position: relative;
+  left:1500px;
+  bottom:0px;
+}
+#card_icon{
+position: absolute;
+left:400px;
+top:-50px;  
 }
 
 </style>

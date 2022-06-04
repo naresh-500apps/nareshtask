@@ -32,7 +32,7 @@
               v-model="filter"
               required
             ></b-form-input></b-col
-          ><b-button  @click="filter = ''" variant="primary"
+          ><b-button @click="filter = ''" variant="primary"
             >search</b-button
           ></b-row
         >
@@ -57,7 +57,7 @@
         ><b>Export<b-icon-arrow-up-short /></b></b-button
       >&nbsp;
       <b-button
-        @click="import_product()"
+        @click="readFile()"
         variant="outline-primary"
         id="export_fill"
         ><b
@@ -71,9 +71,10 @@
       ></b-pagination>
     </div>
     <br /><br />
-    <input type="file" ref="doc" @change="readFile()" id="read_data" />
+    <input type="file" ref="doc" id="read_data" />
     <p id="data">{{ content }}</p>
     <br />
+    <br /><br />
     <b-table
       class="css-serial"
       style="width: 1200px; left: -280px; position: relative"
@@ -132,14 +133,14 @@
     </b-modal>
   </div>
 </template>
-
 <script>
+import exportFromJSON from 'export-from-json'
 export default {
   name: "product_details",
   props: ["columns", "formFields"],
   data() {
     return {
-      perPage: 3,
+      perPage: 5,
       currentPage: 1,
       editedItem: this.formFields,
       modalShow: false,
@@ -208,10 +209,47 @@ export default {
         reader.onload = (res) => {
           console.log(res.target.result);
           document.getElementById("data").innerHTML = res.target.result;
+          const convert = (csv) => {
+            const myArray = csv.split("\n");
+            const keys = myArray[0].split(",");
+            return myArray.splice(1).map((myArray) => {
+              return myArray.split(",").reduce((acc, cur, i) => {
+                const toAdd = {};
+                toAdd[keys[i]] = cur;
+                return { ...acc, ...toAdd };
+              }, {});
+            });
+          };
+          const coverted = res.target.result;
+          console.log(convert(coverted));
+          this.tableData = convert(coverted);
+          console.log(this.tableData);
+          return this.tableData;
         };
         reader.onerror = (err) => console.log(err);
         reader.readAsText(this.file);
       }
+    },
+    export_product() {
+      const objectToCsv = function (data) {
+        const csvRows = [];
+        const headers = Object.keys(data[0]);
+        csvRows.push(headers.join(","));
+        for (const row of data) {
+          const values = headers.map((header) => {
+            const val = row[header];
+            return `"${val}"`;
+          });
+          csvRows.push(values.join(","));
+        }
+        return csvRows.join("\n");
+      };
+      const data = this.tableData;
+      const csvData = objectToCsv(data);
+      console.log(csvData);
+      const fileName = "TableData";
+      const exportType = exportFromJSON.types.csv;
+      exportFromJSON({ data, fileName, exportType });
     },
   },
 };
@@ -254,6 +292,15 @@ export default {
 #read_data {
   position: relative;
   left: -730px;
+}
+#sidebar_fill{
+  position: fixed;
+  display: flex;
+  overflow: hidden;
+  transition: all 0.5s;
+  margin-top:0%;
+  width:250px;
+  left:0%;
 }
 .css-serial {
   counter-reset: Product_details; /* Set the serial number counter to 0 */
